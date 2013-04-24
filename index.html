@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Code Design Workshop</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div id="topBar">
+        <h1 class="topBar-name">Code Design Workshop</h1>
+        <ul class="topBar-nav">
+            <li class="topBar-navItem">
+                <button id="showTestButton">Show tests</button>
+            </li>
+            <li class="topBar-navItem">
+                <button id="runTestButton">Run tests</button>
+            </li>
+        </ul>
+    </div>
+    <div id="mainFrame">
+        <div id="mainFrameContent">
+
+<pre id="editorFrame">function GoBan() {
+    this.getName = function() {
+        return 'Hello World';
+    };
+}</pre>
+            <div id="testFrame">
+            </div>
+        </div>
+    </div>
+    <script src="lib/ace/ace.js"></script>
+    <script src="lib/qunit-1.11.0.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
