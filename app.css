@@ -5,9 +5,13 @@
 }
 html,
 body {
+    height: 100%;
+}
+body {
     margin: 0;
     height: 100%;
-    background-color: #5D5D5D;
+    background-color: #232323;
+    color: white;
 }
 
 /* TOP BAR */
@@ -22,10 +26,9 @@ body {
 }
     #topBar > .topBar-name {
         margin: 0;
-        padding: 0 0.5em;
+        padding: 0 40px;
         font-size: 26px;
         display: inline;
-        color: white;
         text-shadow: -2px 2px 0 #141414;
     }
     #topBar > .topBar-nav {
@@ -69,17 +72,13 @@ body {
     right: 0;
     width: 300px;
     display: none;
-    background-color: #141414;
 }
 .showTest #testFrame {
     display: block;
 }
     .test {
-        display: block;
+        list-style: decimal inside;
     }
-        .test-name {
-            color: white;
-        }
         .test-result {
             font-weight: bold;
         }

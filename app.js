@@ -14,10 +14,10 @@ App = (function App() {
     }
     addTestReport = function(name, result) {
         document.getElementById('testFrame')
-            .innerHTML += '<span class="test">'
-            + '<span class="test-name">' + name +'</span>: '
+            .innerHTML += '<li class="test">'
+            + '<span class="test-name">' + name +': </span>'
             + '<span class="test-result test-result--' + (result?'ok':'error') + '">' + (result?'OK':'ERROR') + '</span>'
-            + '</span>';
+            + '</li>';
     }
     toggleTestReport = function(action) {
         var method;
@@ -37,10 +37,26 @@ App = (function App() {
             button.innerHTML = 'Show tests';
         }
     }
+    runTests = function() {
+        var js = editor.getValue();
+        try {
+            eval(js);
+        } catch(e) {
+            alert('Error in javascript compilation');
+            return false;
+        }
+        cleanTestReport();
+        toggleTestReport(true);
+        QUnit.reset();
+        QUnit.init();
+        QUnit.start();
+        TestSuite(js);
+    }
 
     return {
         toggleTestReport: function(action) {
             toggleTestReport(action);
+            editor.focus();
         },
         runTests: function() {
             var js = editor.getValue();
@@ -56,9 +72,11 @@ App = (function App() {
             QUnit.init();
             QUnit.start();
             TestSuite(js);
+            editor.focus();
         },
         init: function(val) {
             editor.setValue(val);
+            editor.clearSelection();
         }
     }
 })();
