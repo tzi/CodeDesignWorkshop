@@ -63,7 +63,7 @@ App = (function App() {
             try {
                 eval(js);
             } catch(e) {
-                alert('Error in javascript compilation');
+                alert('Error in javascript compilation: ' + e.message);
                 return false;
             }
             cleanTestReport();
