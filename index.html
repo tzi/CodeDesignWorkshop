@@ -11,6 +11,13 @@
         <h1 class="topBar-name">Code Design Workshop</h1>
         <ul class="topBar-nav">
             <li class="topBar-navItem">
+                <select id="selectProjectButton">
+                    <option value="0">Choose a project</option>
+                    <option value="hello-world">Hello World</option>
+                    <option value="Goban">Goban</option>
+                </select>
+            </li>
+            <li class="topBar-navItem">
                 <button id="saveCodeButton">Save code</button>
             </li>
             <li class="topBar-navItem">
@@ -33,6 +40,5 @@
     <script src="lib/ace/ace.js"></script>
     <script src="lib/qunit-1.11.0.js"></script>
     <script src="app.js"></script>
-    <script src="project/hello-world.js"></script>
 </body>
 </html>

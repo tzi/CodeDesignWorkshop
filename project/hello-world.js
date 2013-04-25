@@ -1,12 +1,10 @@
 function TestSuite(js) {
     eval(js);
-    QUnit.test('Hello world test suite', function(){
-        QUnit.equal(new GoBan().getName(), 'Hello World');
+    QUnit.test('The main function return "Hello World"', function(){
+        QUnit.equal(main(), 'Hello World');
     });
 }
 
-App.init((function GoBan() {
-    this.getName = function() {
-        return 'Hello World';
-    };
+App.init((function main() {
+    return 'Hello World';
 }).toString());

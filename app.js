@@ -54,6 +54,18 @@ App = (function App() {
     }
 
     return {
+
+        // Project
+        selectProject: function() {
+            var project = this.options[this.selectedIndex].value;
+            if (project) {
+                var script = document.createElement( 'script' );
+                script.src = '/project/'+project+'.js';
+                document.body.appendChild( script );
+            }
+        },
+
+        // Tests
         toggleTestReport: function(action) {
             toggleTestReport(action);
             editor.focus();
@@ -71,9 +83,13 @@ App = (function App() {
             QUnit.reset();
             QUnit.init();
             QUnit.start();
-            TestSuite(js);
+            if (typeof window.TestSuite == 'function') {
+                TestSuite(js);
+            }
             editor.focus();
         },
+
+        // Editor
         saveCode: function() {
             localStorage['savedCode'] = editor.getValue();
             editor.focus();
@@ -95,6 +111,8 @@ App = (function App() {
 })();
 
 // Menu
+var selectProjectButton = document.getElementById('selectProjectButton');
+selectProjectButton.addEventListener('change', App.selectProject);
 var showTestButton = document.getElementById('showTestButton');
 showTestButton.addEventListener('click', App.toggleTestReport);
 var runTestButton = document.getElementById('runTestButton');
