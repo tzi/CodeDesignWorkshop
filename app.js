@@ -74,9 +74,22 @@ App = (function App() {
             TestSuite(js);
             editor.focus();
         },
+        saveCode: function() {
+            localStorage['savedCode'] = editor.getValue();
+            editor.focus();
+        },
+        loadCode: function() {
+            var val = localStorage['savedCode'];
+            editor.setValue(val);
+            editor.clearSelection();
+            editor.focus();
+        },
         init: function(val) {
             editor.setValue(val);
             editor.clearSelection();
+            if (typeof localStorage['savedCode'] == 'undefined') {
+                localStorage['savedCode'] = val;
+            }
         }
     }
 })();
@@ -86,4 +99,8 @@ var showTestButton = document.getElementById('showTestButton');
 showTestButton.addEventListener('click', App.toggleTestReport);
 var runTestButton = document.getElementById('runTestButton');
 runTestButton.addEventListener('click', App.runTests);
+var saveCodeButton = document.getElementById('saveCodeButton');
+saveCodeButton.addEventListener('click', App.saveCode);
+var loadCodeButton = document.getElementById('loadCodeButton');
+loadCodeButton.addEventListener('click', App.loadCode);
 
