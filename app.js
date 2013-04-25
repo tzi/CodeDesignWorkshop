@@ -1,7 +1,11 @@
 App = (function App() {
 
+    // Attributes
+    var editor;
+    var project;
+
     // Initialization
-    var editor = ace.edit("editorFrame");
+    editor = ace.edit("editorFrame");
     editor.setTheme("ace/theme/twilight");
     editor.getSession().setMode("ace/mode/javascript");
     QUnit.testDone(function(details){
@@ -57,8 +61,9 @@ App = (function App() {
 
         // Project
         selectProject: function() {
-            var project = this.options[this.selectedIndex].value;
-            if (project) {
+            var selected = this.options[this.selectedIndex].value;
+            if (selected) {
+                project = selected;
                 var script = document.createElement( 'script' );
                 script.src = '/project/'+project+'.js';
                 document.body.appendChild( script );
@@ -67,44 +72,56 @@ App = (function App() {
 
         // Tests
         toggleTestReport: function(action) {
-            toggleTestReport(action);
-            editor.focus();
+            if (project) {
+                toggleTestReport(action);
+                editor.focus();
+            }
         },
         runTests: function() {
-            var js = editor.getValue();
-            try {
-                eval(js);
-            } catch(e) {
-                alert('Error in javascript compilation: ' + e.message);
-                return false;
-            }
-            cleanTestReport();
-            toggleTestReport(true);
-            QUnit.reset();
-            QUnit.init();
-            QUnit.start();
-            if (typeof window.TestSuite == 'function') {
+            if (project) {
+                var js = editor.getValue();
+                try {
+                    eval(js);
+                } catch(e) {
+                    alert('Error in javascript compilation: ' + e.message);
+                    return false;
+                }
+                cleanTestReport();
+                toggleTestReport(true);
+                QUnit.reset();
+                QUnit.init();
+                QUnit.start();
                 TestSuite(js);
+                editor.focus();
             }
-            editor.focus();
         },
 
         // Editor
         saveCode: function() {
-            localStorage['savedCode'] = editor.getValue();
-            editor.focus();
+            if (project) {
+                localStorage['savedCode'] = editor.getValue();
+                editor.focus();
+            }
         },
         loadCode: function() {
-            var val = localStorage['savedCode'];
-            editor.setValue(val);
-            editor.clearSelection();
-            editor.focus();
+            if (project) {
+                var val = localStorage['savedCode'];
+                editor.setValue(val);
+                editor.clearSelection();
+                editor.focus();
+            }
         },
         init: function(val) {
             editor.setValue(val);
             editor.clearSelection();
             if (typeof localStorage['savedCode'] == 'undefined') {
                 localStorage['savedCode'] = val;
+            }
+            if (project) {
+                var buttons = document.getElementsByClassName('enableWithProject');
+                for(var i=0; i<buttons.length; i++){
+                    buttons[i].disabled=false;
+                }
             }
         }
     }
