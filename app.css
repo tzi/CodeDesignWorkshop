@@ -57,19 +57,35 @@ body {
         left: 0;
         right: 0;
     }
-    #testFrame {
-        margin: 0;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        width: 100px;
-        display: none;
-        background-color: #141414;
-    }
     .showTest #editorFrame {
-        right: 100px;
+        right: 300px;
     }
-    .showTest #testFrame {
+#testFrame {
+    margin: 0;
+    padding: 0.5em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    display: none;
+    background-color: #141414;
+}
+.showTest #testFrame {
+    display: block;
+}
+    .test {
         display: block;
     }
+        .test-name {
+            color: white;
+        }
+        .test-result {
+            font-weight: bold;
+        }
+            .test-result--ok {
+                color: yellow;
+            }
+            .test-result--error {
+                color: red;
+            }
