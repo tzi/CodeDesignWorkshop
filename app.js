@@ -99,13 +99,13 @@ App = (function App() {
         // Editor
         saveCode: function() {
             if (project) {
-                localStorage['savedCode'] = editor.getValue();
+                localStorage['savedCode-'+project] = editor.getValue();
                 editor.focus();
             }
         },
         loadCode: function() {
             if (project) {
-                var val = localStorage['savedCode'];
+                var val = localStorage['savedCode-'+project];
                 editor.setValue(val);
                 editor.clearSelection();
                 editor.focus();
@@ -114,10 +114,10 @@ App = (function App() {
         init: function(val) {
             editor.setValue(val);
             editor.clearSelection();
-            if (typeof localStorage['savedCode'] == 'undefined') {
-                localStorage['savedCode'] = val;
-            }
             if (project) {
+                if (typeof localStorage['savedCode-'+project] == 'undefined') {
+                    localStorage['savedCode-'+project] = val;
+                }
                 var buttons = document.getElementsByClassName('enableWithProject');
                 for(var i=0; i<buttons.length; i++){
                     buttons[i].disabled=false;
