@@ -19,9 +19,14 @@ App = (function App() {
             if (Project.active()) {
                 var js = Interface.Editor.getValue();
                 try {
+                    var currentFileLine = 22;
                     eval(js);
                 } catch(e) {
-                    alert('Error in javascript compilation: ' + e.message);
+                    var msg = 'Error in javascript compilation: '+e.message;
+                    if (typeof e.lineNumber != 'undefined') {
+                        msg += ' at line '+(e.lineNumber-currentFileLine);
+                    }
+                    alert(msg);
                     return false;
                 }
                 Interface.TestPanel.clean();
