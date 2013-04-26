@@ -4,6 +4,7 @@ App = (function App() {
     /*** Management of project & associate tests ***/
     var Project = {
         name: '',
+        testSuite: '',
         active: function() {
             return (Project.name !== '');
         },
@@ -11,23 +12,26 @@ App = (function App() {
             if (name) {
                 Project.name = name;
                 // Load code
-                var client = new XMLHttpRequest();
-                client.open('GET', 'project/'+name+'/code.js');
-                client.onreadystatechange = function() {
-                    App.init(client.responseText);
+                var clientCode = new XMLHttpRequest();
+                clientCode.open('GET', 'project/'+name+'/code.js');
+                clientCode.onreadystatechange = function() {
+                    App.init(clientCode.responseText);
                 }
-                client.send();
+                clientCode.send();
                 // Load test suite
-                var script = document.createElement( 'script' );
-                script.src = 'project/'+name+'/TestSuite.js';
-                document.body.appendChild( script );
+                var clientTestSuite = new XMLHttpRequest();
+                clientTestSuite.open('GET', 'project/'+name+'/testSuite.js');
+                clientTestSuite.onreadystatechange = function() {
+                    Project.testSuite = clientTestSuite.responseText;
+                }
+                clientTestSuite.send();
             }
         },
         runTests: function(){
             if (Project.active()) {
                 var js = Interface.Editor.getValue();
                 try {
-                    var currentFileLine = 30;
+                    var currentFileLine = 34;
                     eval(js);
                 } catch(e) {
                     var msg = 'Error in javascript compilation: '+e.message;
@@ -42,7 +46,9 @@ App = (function App() {
                 QUnit.reset();
                 QUnit.init();
                 QUnit.start();
-                TestSuite(js);
+                // Reparse the TestSuite with the current context :(
+                eval('var TestSuite=function(){'+Project.testSuite+'}');
+                TestSuite();
             }
         },
         init: function() {
