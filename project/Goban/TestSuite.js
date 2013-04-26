@@ -4,9 +4,3 @@ function TestSuite(js) {
         QUnit.equal(new GoBan().getSize(), 19);
     });
 }
-
-App.init((function GoBan() {
-    this.getSize = function() {
-        return 19;
-    };
-}).toString());

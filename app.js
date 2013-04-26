@@ -10,8 +10,16 @@ App = (function App() {
         load: function(name){
             if (name) {
                 Project.name = name;
+                // Load code
+                var client = new XMLHttpRequest();
+                client.open('GET', 'project/'+name+'/code.js');
+                client.onreadystatechange = function() {
+                    App.init(client.responseText);
+                }
+                client.send();
+                // Load test suite
                 var script = document.createElement( 'script' );
-                script.src = 'project/'+name+'.js';
+                script.src = 'project/'+name+'/TestSuite.js';
                 document.body.appendChild( script );
             }
         },
@@ -19,7 +27,7 @@ App = (function App() {
             if (Project.active()) {
                 var js = Interface.Editor.getValue();
                 try {
-                    var currentFileLine = 22;
+                    var currentFileLine = 30;
                     eval(js);
                 } catch(e) {
                     var msg = 'Error in javascript compilation: '+e.message;

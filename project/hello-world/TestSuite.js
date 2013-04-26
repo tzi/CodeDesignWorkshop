@@ -4,7 +4,3 @@ function TestSuite(js) {
         QUnit.equal(main(), 'Hello World');
     });
 }
-
-App.init((function main() {
-    return 'Hello World';
-}).toString());
