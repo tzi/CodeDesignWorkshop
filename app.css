@@ -66,8 +66,6 @@ body {
         right: 40%;
     }
 #testFrame {
-    margin: 0;
-    padding: 0.5em;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -78,15 +76,25 @@ body {
 .showTest #testFrame {
     display: block;
 }
-    .test {
-        list-style: decimal inside;
+    #testReport {
+        margin: 0;
+        padding: 0.5em;
     }
-        .test-result {
-            font-weight: bold;
+        .test {
+            list-style: decimal inside;
         }
-            .test-result--ok {
-                color: yellow;
+            .test-result {
+                font-weight: bold;
             }
-            .test-result--error {
-                color: red;
-            }
+                .test-result--ok {
+                    color: yellow;
+                }
+                .test-result--error {
+                    color: red;
+                }
+    #githubLink {
+        position: absolute;
+        bottom: 0.5em;
+        right: 0.5em;
+        color: white;
+    }

@@ -99,6 +99,9 @@ App = (function App() {
             Interface.saveCodeAction.addEventListener('click', App.saveCode);
             Interface.Editor.setTheme("ace/theme/twilight");
             Interface.Editor.getSession().setMode("ace/mode/javascript");
+            Interface.Editor.on('change', function(){
+                Interface.TestPanel.clean();
+            });
         },
         enableActions: function() {
             var buttons = document.getElementsByClassName('enableWithProject');
@@ -122,11 +125,12 @@ App = (function App() {
             }
         },
         TestPanel: {
+            element: document.getElementById('testReport'),
             clean: function() {
-                document.getElementById('testFrame').innerHTML = '';
+                Interface.TestPanel.element.innerHTML = '';
             },
             addEntry: function(name, result) {
-                document.getElementById('testFrame')
+                Interface.TestPanel.element
                     .innerHTML += '<li class="test">'
                     + '<span class="test-name">' + name +': </span>'
                     + '<span class="test-result test-result--' + (result?'ok':'error') + '">' + (result?'OK':'ERROR') + '</span>'
@@ -143,11 +147,10 @@ App = (function App() {
                     method='remove';
                 }
                 var result = document.getElementById('mainFrame').classList[method]('showTest');
-                var button = document.getElementById('showTestAction');
                 if (result || action) {
-                    button.innerHTML = 'Hide tests';
+                    Interface.showTestAction.innerHTML = 'Hide tests';
                 } else {
-                    button.innerHTML = 'Show tests';
+                    Interface.showTestAction.innerHTML = 'Show tests';
                 }
             }
         }
@@ -162,17 +165,15 @@ App = (function App() {
             Project.load(this.options[this.selectedIndex].value);
             Interface.Editor.focus();
         },
-
-        // Tests
+        runTests: function() {
+            Project.runTests();
+            Interface.Editor.focus();
+        },
         toggleTestPanel: function(action) {
             if (Project.active()) {
                 Interface.TestPanel.toggle(action);
                 Interface.Editor.focus();
             }
-        },
-        runTests: function() {
-            Project.runTests();
-            Interface.Editor.focus();
         },
 
         // Editor
