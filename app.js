@@ -11,7 +11,7 @@ App = (function App() {
             if (name) {
                 Project.name = name;
                 var script = document.createElement( 'script' );
-                script.src = '/project/'+name+'.js';
+                script.src = 'project/'+name+'.js';
                 document.body.appendChild( script );
             }
         },
