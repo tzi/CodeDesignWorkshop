@@ -1,17 +1,52 @@
 App = (function App() {
 
 
-    /*** Attributes ***/
-    var project;
+    /*** Management of project & associate tests ***/
+    var Project = {
+        name: '',
+        active: function() {
+            return (Project.name !== '');
+        },
+        load: function(name){
+            if (name) {
+                Project.name = name;
+                var script = document.createElement( 'script' );
+                script.src = '/project/'+name+'.js';
+                document.body.appendChild( script );
+            }
+        },
+        runTests: function(){
+            if (Project.active()) {
+                var js = Interface.Editor.getValue();
+                try {
+                    eval(js);
+                } catch(e) {
+                    alert('Error in javascript compilation: ' + e.message);
+                    return false;
+                }
+                Interface.TestPanel.clean();
+                Interface.TestPanel.toggle(true);
+                QUnit.reset();
+                QUnit.init();
+                QUnit.start();
+                TestSuite(js);
+            }
+        },
+        init: function() {
+            QUnit.testDone(function(details){
+                Interface.TestPanel.addEntry(details.name, details.failed==0);
+            });
+        }
+    }
 
 
     /*** Management of local storage ***/
     var Storage = {
         getAllCodes: function() {
-            if (!project) {
+            if (!Project.active()) {
                 return {};
             }
-            var codes = localStorage['savedCode-'+project];
+            var codes = localStorage['savedCode-'+Project.name];
             if (typeof codes != 'string') {
                 return {};
             }
@@ -42,7 +77,7 @@ App = (function App() {
             var codes = Storage.getAllCodes();
             var isNew = (typeof code[name] == 'undefined');
             codes[name] = code;
-            localStorage['savedCode-'+project] = JSON.stringify(codes);
+            localStorage['savedCode-'+Project.name] = JSON.stringify(codes);
             return isNew;
         }
     }
@@ -124,44 +159,25 @@ App = (function App() {
 
         // Project
         selectProject: function() {
-            var selected = this.options[this.selectedIndex].value;
-            if (selected) {
-                project = selected;
-                var script = document.createElement( 'script' );
-                script.src = '/project/'+project+'.js';
-                document.body.appendChild( script );
-            }
+            Project.load(this.options[this.selectedIndex].value);
+            Interface.Editor.focus();
         },
 
         // Tests
         toggleTestPanel: function(action) {
-            if (project) {
+            if (Project.active()) {
                 Interface.TestPanel.toggle(action);
                 Interface.Editor.focus();
             }
         },
         runTests: function() {
-            if (project) {
-                var js = Interface.Editor.getValue();
-                try {
-                    eval(js);
-                } catch(e) {
-                    alert('Error in javascript compilation: ' + e.message);
-                    return false;
-                }
-                Interface.TestPanel.clean();
-                Interface.TestPanel.toggle(true);
-                QUnit.reset();
-                QUnit.init();
-                QUnit.start();
-                TestSuite(js);
-                Interface.Editor.focus();
-            }
+            Project.runTests();
+            Interface.Editor.focus();
         },
 
         // Editor
         saveCode: function() {
-            if (project) {
+            if (Project.active()) {
                 var name = prompt('Under which name?', 'just a try');
                 if (Storage.addCode(name, Interface.Editor.getValue())){
                     Interface.addSaveOption(name);
@@ -170,7 +186,7 @@ App = (function App() {
             }
         },
         loadCode: function() {
-            if (project) {
+            if (Project.active()) {
                 var name = this.options[this.selectedIndex].value;
                 if (name) {
                     Interface.Editor.setValue(Storage.getCode(name));
@@ -183,7 +199,7 @@ App = (function App() {
         init: function(val) {
             Interface.Editor.setValue(val);
             Interface.Editor.clearSelection();
-            if (project) {
+            if (Project.active()) {
                 Storage.addCode('origin', val);
                 Interface.enableActions();
                 Interface.setOptions(Storage.getAllNames());
@@ -191,12 +207,10 @@ App = (function App() {
         }
     }
 
-    // Initialization
-    QUnit.testDone(function(details){
-        Interface.TestPanel.addEntry(details.name, details.failed==0);
-    });
-    Interface.init();
 
+    /*** Initialization ***/
+    Interface.init();
+    Project.init();
     return App;
 })();
 
