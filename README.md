@@ -1,10 +1,10 @@
-Code Design Workshop
+Code Review And Development Environment
 ========================
 
 This is platform to edit javascript code online.
 It can handle several projects & can run predefined tests online.
 
-[Give it a try](http://tzi.github.io/CodeDesignWorkshop/)
+[Give it a try](http://tzi.github.io/CRADE/)
 
 
 Why ?
