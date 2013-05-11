@@ -52,3 +52,17 @@ QUnit.test('Protection against an unknown type is 0', function() {
 	var c = generateCharacter(params);
 	QUnit.equal(c.getSpecialDef('schtroumpf'), 0);
 });
+
+QUnit.test('A character takes special damage of type "fire" with no protection', function() { 
+	var params = {pv: 100};
+	var c = generateCharacter(params);
+	c.take(10, 'fire');
+	QUnit.equal(c.getPv(), 90);
+});
+
+QUnit.test('A character takes special damage of type "fire" with 50% protection', function() { 
+	var params = {pv: 100, pro: {fire: 50}};
+	var c = generateCharacter(params);
+	c.take(100, 'fire');
+	QUnit.equal(c.getPv(), 50);
+});
