@@ -42,8 +42,11 @@ function generateCharacter(params) {
             }
         } else {
             var prot_rate = pub.getSpecialDef(type);
-            var actual_damage = 0;
-            priv.pv -= 0;
+            var actual_damage = damage;
+            if (prot_rate != 0) {
+                actual_damage = Math.ceil(damage * (100 - prot_rate)/100);
+            }
+            priv.pv -= actual_damage;
         }
 
         return priv.pv;
