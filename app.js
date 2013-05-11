@@ -30,10 +30,14 @@ App = (function App() {
                     Project.testSuite = client.responseText;
                 }
                 client.send();
+                Interface.exercisePicture.setAttribute('src', 'project/'+Project.name+'/pic'+id+'.gif');
+                Interface.TestPanel.clean();
+                Interface.exercisePicture.style.display = '';
             }
         },
         runTests: function(){
             if (Project.active()) {
+                Interface.exercisePicture.style.display = 'none';
                 var js = Interface.Editor.getValue();
                 try {
                     var currentFileLine = 34;
@@ -114,6 +118,7 @@ App = (function App() {
         runTestAction: document.getElementById('runTestAction'),
         saveCodeAction: document.getElementById('saveCodeAction'),
         loadCodeAction: document.getElementById('loadCodeAction'),
+        exercisePicture: document.getElementById('picture'),
         Editor: ace.edit('editorFrame'),
         init: function() {
             Interface.selectProjectAction.addEventListener('change', App.selectProject);
