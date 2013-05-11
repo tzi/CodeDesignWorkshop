@@ -30,14 +30,12 @@ App = (function App() {
                     Project.testSuite = client.responseText;
                 }
                 client.send();
-                Interface.exercisePicture.setAttribute('src', 'project/'+Project.name+'/pic'+id+'.gif');
                 Interface.TestPanel.clean();
-                Interface.exercisePicture.style.display = '';
+                Interface.clearPicture();
             }
         },
         runTests: function(){
             if (Project.active()) {
-                Interface.exercisePicture.style.display = 'none';
                 var js = Interface.Editor.getValue();
                 try {
                     var currentFileLine = 34;
@@ -63,6 +61,11 @@ App = (function App() {
         init: function() {
             QUnit.testDone(function(details){
                 Interface.TestPanel.addEntry(details.name, details.failed==0);
+                if (QUnit.config.stats.bad) {
+                    Interface.loadPicture();
+                } else {
+                    Interface.clearPicture();
+                }
             });
         }
     }
@@ -130,6 +133,7 @@ App = (function App() {
             Interface.Editor.getSession().setMode("ace/mode/javascript");
             Interface.Editor.on('change', function(){
                 Interface.TestPanel.clean();
+                Interface.clearPicture();
             });
         },
         enableActions: function() {
@@ -177,6 +181,17 @@ App = (function App() {
                 }
                 var result = document.getElementById('mainFrame').classList[method]('showTest');
             }
+        },
+        loadPicture: function() {
+            var max = 10;
+            var min = 1;
+            var id = Math.floor(Math.random() * (max - min + 1)) + min;
+            Interface.exercisePicture.setAttribute('src', 'picture/pic'+id+'.gif');
+            Interface.exercisePicture.style.display = '';
+        },
+        clearPicture: function() {
+            Interface.exercisePicture.style.display = 'none';
+            Interface.exercisePicture.setAttribute('src', '');
         }
     }
 

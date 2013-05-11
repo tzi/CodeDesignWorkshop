@@ -102,3 +102,7 @@ body {
         right: 0.5em;
         color: white;
     }
+    .pictureContainer {
+        text-align: center;
+        margin-top: 1em;
+    }
