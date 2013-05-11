@@ -18,3 +18,23 @@ QUnit.test('A character takes damage and is protected by its def', function() {
 	QUnit.equal(perso.take(15), 0);
 	QUnit.equal(perso.getPv(), 0);
 });
+
+QUnit.test('A character hits another character without weapon', function() {
+	var params_attacker = {str: 5};
+	var params_attacked = {def: 3, pv: 20};
+	var attacker = generateCharacter(params_attacker);
+	var attacked = generateCharacter(params_attacked);
+
+	attacker.attack(attacked);
+	QUnit.equal(attacked.getPv(), 18);
+});
+
+QUnit.test('A character hits another character with a weapon', function() {
+	var params_attacker = {str: 5, weapon: {dmg: 5}};
+	var params_attacked = {def: 3, pv: 20};
+	var attacker = generateCharacter(params_attacker);
+	var attacked = generateCharacter(params_attacked);
+
+	attacker.attack(attacked);
+	QUnit.equal(attacked.getPv(), 13);
+});

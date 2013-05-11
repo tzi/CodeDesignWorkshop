@@ -35,5 +35,15 @@ function generateCharacter(params) {
         return priv.pv;
     }
 
+    // Attack another character
+    pub.attack = function(character) {
+        var base = 0;
+        if (priv.weapon && priv.weapon.dmg) {
+            base = priv.weapon.dmg;
+        }
+        var damage = priv.str + base;
+        character.take(damage);
+    }
+
     return pub;
 }
