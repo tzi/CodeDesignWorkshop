@@ -38,6 +38,10 @@ body {
         list-style-type: none;
         float: right;
     }
+    #topBar > .topBar-nav--project {
+        width: 40%;
+        text-align: right;
+    }
         #topBar .topBar-navItem {
             margin-right: 0.5em;
             display: inline;

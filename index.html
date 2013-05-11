@@ -9,19 +9,13 @@
 <body>
     <div id="topBar">
         <h1 class="topBar-name"><abbr title="Code Review And Development Environment">CRADE</abbr></h1>
-        <ul class="topBar-nav">
+        <ul class="topBar-nav topBar-nav--project">
             <li class="topBar-navItem">
                 <select id="selectProjectAction">
                     <option value="" selected="selected">Choose a project</option>
                     <option value="hello-world">Hello World</option>
                     <option value="Goban">Goban</option>
                 </select>
-            </li>
-            <li class="topBar-navItem">
-                <button id="saveCodeAction" disabled="disabled" class="enableWithProject">Save code</button>
-            </li>
-            <li class="topBar-navItem">
-                <select id="loadCodeAction" disabled="disabled" class="enableWithProject"></select>
             </li>
             <li class="topBar-navItem">
                 <select id="selectTestAction" disabled="disabled" class="enableWithProject">
@@ -34,8 +28,16 @@
                 <button id="runTestAction" disabled="disabled" class="enableWithProject">Run tests</button>
             </li>
         </ul>
+        <ul class="topBar-nav topBar-nav--editor">
+            <li class="topBar-navItem">
+                <button id="saveCodeAction" disabled="disabled" class="enableWithProject">Save code</button>
+            </li>
+            <li class="topBar-navItem">
+                <select id="loadCodeAction" disabled="disabled" class="enableWithProject"></select>
+            </li>
+        </ul>
     </div>
-    <div id="mainFrame">
+    <div id="mainFrame" class="showTest">
         <div id="mainFrameContent">
             <pre id="editorFrame"></pre>
             <div id="testFrame">
