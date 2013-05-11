@@ -2,7 +2,14 @@ function generateCharacter(params) {
     var priv = {
         str: 1,
         def: 1,
-        pv: 10
+        pv: 10,
+        pro : { // special protections, in %
+            'fire': 0,
+            'water': 0,
+            'air':0,
+            'earth': 0,
+            'emo': 0
+        },
     };
     var pub = {};
 
@@ -43,6 +50,10 @@ function generateCharacter(params) {
         }
         var damage = priv.str + base;
         character.take(damage);
+    }
+
+    pub.getSpecialDef = function(type) {
+        return priv.pro[type] << 0;
     }
 
     return pub;

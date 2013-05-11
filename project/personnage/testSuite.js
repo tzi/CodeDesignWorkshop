@@ -38,3 +38,17 @@ QUnit.test('A character hits another character with a weapon', function() {
 	attacker.attack(attacked);
 	QUnit.equal(attacked.getPv(), 13);
 });
+
+QUnit.test('Protection against known types is calculated', function() {
+	var params = {pro: {fire: 2, water: 3, emo: 4}};
+	var c = generateCharacter(params);
+	QUnit.equal(c.getSpecialDef('fire'), 2);
+	QUnit.equal(c.getSpecialDef('water'), 3);
+	QUnit.equal(c.getSpecialDef('emo'), 4);
+});
+
+QUnit.test('Protection against an unknown type is 0', function() {
+	var params = {pro: {fire: 2, water: 3, emo: 4}};
+	var c = generateCharacter(params);
+	QUnit.equal(c.getSpecialDef('schtroumpf'), 0);
+});
