@@ -8,23 +8,28 @@ App = (function App() {
         active: function() {
             return (Project.name !== '');
         },
-        load: function(name){
+        loadProject: function(name){
             if (name) {
                 Project.name = name;
                 // Load code
-                var clientCode = new XMLHttpRequest();
-                clientCode.open('GET', 'project/'+name+'/code.js');
-                clientCode.onreadystatechange = function() {
-                    App.init(clientCode.responseText);
+                var client = new XMLHttpRequest();
+                client.open('GET', 'project/'+name+'/code.js');
+                client.onreadystatechange = function() {
+                    App.init(client.responseText);
                 }
-                clientCode.send();
+                client.send();
+                Project.loadTestSuite('');
+            }
+        },
+        loadTestSuite: function(id){
+            if (Project.active()) {
                 // Load test suite
-                var clientTestSuite = new XMLHttpRequest();
-                clientTestSuite.open('GET', 'project/'+name+'/testSuite.js');
-                clientTestSuite.onreadystatechange = function() {
-                    Project.testSuite = clientTestSuite.responseText;
+                var client = new XMLHttpRequest();
+                client.open('GET', 'project/'+Project.name+'/testSuite'+id+'.js');
+                client.onreadystatechange = function() {
+                    Project.testSuite = client.responseText;
                 }
-                clientTestSuite.send();
+                client.send();
             }
         },
         runTests: function(){
@@ -105,15 +110,15 @@ App = (function App() {
     /*** Management of action elements & test panel ***/
     var Interface = {
         selectProjectAction: document.getElementById('selectProjectAction'),
-        showTestAction: document.getElementById('showTestAction'),
+        selectTestAction: document.getElementById('selectTestAction'),
         runTestAction: document.getElementById('runTestAction'),
         saveCodeAction: document.getElementById('saveCodeAction'),
         loadCodeAction: document.getElementById('loadCodeAction'),
         Editor: ace.edit('editorFrame'),
         init: function() {
             Interface.selectProjectAction.addEventListener('change', App.selectProject);
+            Interface.selectTestAction.addEventListener('change', App.selectTest);
             Interface.loadCodeAction.addEventListener('change', App.loadCode);
-            Interface.showTestAction.addEventListener('click', App.toggleTestPanel);
             Interface.runTestAction.addEventListener('click', App.runTests);
             Interface.saveCodeAction.addEventListener('click', App.saveCode);
             Interface.Editor.setTheme("ace/theme/twilight");
@@ -166,11 +171,6 @@ App = (function App() {
                     method='remove';
                 }
                 var result = document.getElementById('mainFrame').classList[method]('showTest');
-                if (result || action) {
-                    Interface.showTestAction.innerHTML = 'Hide tests';
-                } else {
-                    Interface.showTestAction.innerHTML = 'Show tests';
-                }
             }
         }
     }
@@ -180,8 +180,12 @@ App = (function App() {
     var App = {
 
         // Project
+        selectTest: function() {
+            Project.loadTestSuite(this.options[this.selectedIndex].value);
+            Interface.Editor.focus();
+        },
         selectProject: function() {
-            Project.load(this.options[this.selectedIndex].value);
+            Project.loadProject(this.options[this.selectedIndex].value);
             Interface.Editor.focus();
         },
         runTests: function() {
