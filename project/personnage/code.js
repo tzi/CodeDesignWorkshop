@@ -30,15 +30,22 @@ function generateCharacter(params) {
     }
 
     // Take damage
-    pub.take = function(damage) {
+    pub.take = function(damage, type) {
         damage = damage << 0;
-        if (damage < priv.def) {
-            return priv.pv;
+        if (type == undefined || type == 'phys') {
+            if (damage < priv.def) {
+                return priv.pv;
+            }
+            priv.pv -= damage - priv.def;
+            if (priv.pv < 0) {
+                priv.pv = 0;
+            }
+        } else {
+            var prot_rate = pub.getSpecialDef(type);
+            var actual_damage = 0;
+            priv.pv -= 0;
         }
-        priv.pv -= damage - priv.def;
-        if (priv.pv < 0) {
-            priv.pv = 0;
-        }
+
         return priv.pv;
     }
 
