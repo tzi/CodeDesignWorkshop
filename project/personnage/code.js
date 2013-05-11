@@ -22,5 +22,18 @@ function generateCharacter(params) {
         return priv.pv;
     }
 
+    // Take damage
+    pub.take = function(damage) {
+        damage = damage << 0;
+        if (damage < priv.def) {
+            return priv.pv;
+        }
+        priv.pv -= damage - priv.def;
+        if (priv.pv < 0) {
+            priv.pv = 0;
+        }
+        return priv.pv;
+    }
+
     return pub;
 }
