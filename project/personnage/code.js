@@ -1,5 +1,7 @@
 function generateCharacter(params) {
     var priv = {
+        x : 0,
+        y : 0,
         str: 1,
         def: 1,
         pv: 10,
@@ -10,6 +12,7 @@ function generateCharacter(params) {
             'earth': 0,
             'emo': 0
         },
+        speed : 1 // length of a step
     };
     var pub = {};
 
@@ -68,6 +71,45 @@ function generateCharacter(params) {
 
     pub.getSpecialDef = function(type) {
         return priv.pro[type] << 0;
+    }
+
+    pub.move = function(direction, nb_of_steps) {
+        if (nb_of_steps === undefined) {
+            nb_of_steps = 1;
+        }
+        var dist = nb_of_steps * priv.speed;
+        switch(direction) {
+            case 'N':
+                priv.y += dist;
+                break;
+            case 'NE':
+                priv.y += dist;
+                priv.x += dist;
+                break;
+            case 'S':
+                priv.y -= dist;
+                break;
+            case 'SE':
+                priv.y -= dist;
+            case 'E':
+                priv.x += dist;
+                break;
+            case 'W':
+                priv.x -= dist;
+                break;
+            case 'SW': // W00T ! Sud Web ! \o/
+                priv.x -= dist;
+                priv.y -= dist;
+                break;
+        }
+    }
+
+    pub.getX = function() {
+        return priv.x;
+    }
+
+    pub.getY = function() {
+        return priv.y;
     }
 
     return pub;
