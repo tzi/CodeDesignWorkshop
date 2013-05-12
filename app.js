@@ -176,8 +176,8 @@ App = (function App() {
             addEntry: function(name, result) {
                 Interface.TestPanel.element
                     .innerHTML += '<li class="test">'
-                    + '<span class="test-name">' + name +': </span>'
-                    + '<span class="test-result test-result--' + (result?'ok':'error') + '">' + (result?'OK':'ERROR') + '</span>'
+                    + '<span class="test-result test-result--' + (result?'ok':'error') + '">[' + (result?'OK':'ERROR') + '] </span>'
+                    + '<span class="test-name">' + name +'</span>'
                     + '</li>';
             },
             toggle: function(action) {
