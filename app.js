@@ -59,6 +59,11 @@ App = (function App() {
             }
         },
         init: function() {
+            QUnit.log(function(details) {
+                if (details.message) {
+                    Interface.TestPanel.addEntry('[Assert] '+details.message, details.result);
+                }
+            });
             QUnit.testDone(function(details){
                 Interface.TestPanel.addEntry(details.name, details.failed==0);
                 if (QUnit.config.stats.bad) {
