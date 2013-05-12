@@ -54,12 +54,16 @@ function generateCharacter(params) {
 
     // Attack another character
     pub.attack = function(character) {
-        var base = 0;
+        var damage = priv.str;
+        var type = 'phys';
         if (priv.weapon && priv.weapon.dmg) {
-            base = priv.weapon.dmg;
+            damage += priv.weapon.dmg;
+            if (priv.weapon.type !== undefined && priv.weapon.type !== 'phys') {
+                damage = priv.weapon.dmg;
+                type = priv.weapon.type = 'fire';
+            }
         }
-        var damage = priv.str + base;
-        character.take(damage);
+        character.take(damage, type);
     }
 
     pub.getSpecialDef = function(type) {
