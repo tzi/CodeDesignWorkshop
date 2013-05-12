@@ -59,13 +59,19 @@ App = (function App() {
             }
         },
         init: function() {
+            var asserts = [];
             QUnit.log(function(details) {
                 if (details.message) {
-                    Interface.TestPanel.addEntry('[Assert] '+details.message, details.result);
+                    asserts.push('<li class="assert"><span class="result result--'+(details.result?'ok':'ko')+'">['+(details.result?'OK':'KO')+'] '+details.message+'</li>');
                 }
             });
             QUnit.testDone(function(details){
-                Interface.TestPanel.addEntry(details.name, details.failed==0);
+                var msg = details.name;
+                if (asserts.length) {
+                    msg += '<ol class="asserts">'+asserts.join('')+'</ol>';
+                    asserts = [];
+                }
+                Interface.TestPanel.addEntry(msg, details.failed==0);
                 if (QUnit.config.stats.bad) {
                     Interface.loadPicture();
                 } else {
