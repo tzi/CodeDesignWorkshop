@@ -60,9 +60,27 @@ QUnit.test('A character takes special damage of type "fire" with no protection',
 	QUnit.equal(c.getPv(), 90);
 });
 
-QUnit.test('A character takes special damage of type "fire" with 50% protection', function() { 
+QUnit.test('A character takes 100 special damage of type "fire" with 50% protection', function() { 
 	var params = {pv: 100, pro: {fire: 50}};
 	var c = generateCharacter(params);
 	c.take(100, 'fire');
-	QUnit.equal(c.getPv(), 50);
+	QUnit.equal(c.getPv(), 50, "Character is left with 50 PV out of 100.");
+});
+
+QUnit.test('A character casts a special attack on another', function() {
+	QUnit.expect(2);
+	var mock = generateCharacter();
+	mock.take = function(damage, type) {
+		QUnit.equal(damage, 100, "Damage is equal to 100");
+		QUnit.equal(type, 'fire', "Damage type is equal to fire");
+	};
+
+	var c = generateCharacter({
+		weapon: {
+			dmg: 100,
+			type: 'fire'
+		}
+	});
+	c.attack(mock);
+
 });
