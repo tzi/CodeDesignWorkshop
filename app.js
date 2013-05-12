@@ -73,9 +73,9 @@ App = (function App() {
                 }
                 Interface.TestPanel.addEntry(msg, details.failed==0);
                 if (QUnit.config.stats.bad) {
-                    Interface.loadPicture();
-                } else {
                     Interface.clearPicture();
+                } else {
+                    Interface.loadPicture();
                 }
             });
         }
@@ -194,11 +194,13 @@ App = (function App() {
             }
         },
         loadPicture: function() {
-            var max = 10;
-            var min = 1;
-            var id = Math.floor(Math.random() * (max - min + 1)) + min;
-            Interface.exercisePicture.setAttribute('src', 'picture/pic'+id+'.gif');
-            Interface.exercisePicture.style.display = '';
+            if (Interface.exercisePicture.style.display == 'none') {
+                var max = 23;
+                var min = 1;
+                var id = Math.floor(Math.random() * (max - min + 1)) + min;
+                Interface.exercisePicture.setAttribute('src', 'picture/pic'+id+'.gif');
+                Interface.exercisePicture.style.display = '';
+            }
         },
         clearPicture: function() {
             Interface.exercisePicture.style.display = 'none';
