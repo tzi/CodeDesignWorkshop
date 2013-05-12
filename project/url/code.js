@@ -81,7 +81,7 @@ function Url(url, context) {
         pants.port = port
     } else {
         var ref = Url(context);
-        var refStr = ref.protocol+':'; // fatome
+        var refStr = ref.protocol+':'; // fantôme
         if (url.substr(0,2)=='//') {
             return new Url(refStr+url)
         }
