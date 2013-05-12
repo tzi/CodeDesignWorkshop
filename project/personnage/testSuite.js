@@ -85,20 +85,30 @@ QUnit.test('A character casts a special attack on another', function() {
 
 });
 
-QUnit.test('A character moves correctly with a given speed', function() {
+QUnit.test('Going North', function() {
 	var c = generateCharacter({speed: 2});
-	QUnit.equal(c.getX(), 0);
-	QUnit.equal(c.getY(), 0);
 	c.move('N');
-	QUnit.equal(c.getX(), 0, "Has correct X after going 1 step North");
-	QUnit.equal(c.getY(), 2, "Has correct Y after going 1 step North");
+	QUnit.equal(c.getX(), 0);
+	QUnit.equal(c.getY(), 2);
+});
+
+QUnit.test('Going South', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('S');
+	QUnit.equal(c.getX(), 0);
+	QUnit.equal(c.getY(), -2);
+});
+
+QUnit.test('Going East', function() {
+	var c = generateCharacter({speed: 2});
 	c.move('E');
-	QUnit.equal(c.getX(), 2, "Has correct X after going 1 step East");
-	QUnit.equal(c.getY(), 2, "Has correct Y after going 1 step East");
-	c.move('SE', 3);
-	QUnit.equal(c.getX(), 8, "Has correct X after going 3 steps South-East");
-	QUnit.equal(c.getY(), -4, "Has correct Y after going 3 steps South-East");
-	c.move('W', 4);
-	QUnit.equal(c.getX(), 0, "Has correct X after going 4 steps West");
-	QUnit.equal(c.getY(), -4, "Has correct Y after going 4 steps West");
+	QUnit.equal(c.getX(), 2);
+	QUnit.equal(c.getY(), 0);
+});
+
+QUnit.test('Going West', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('W');
+	QUnit.equal(c.getX(), -2);
+	QUnit.equal(c.getY(), 0);
 });
