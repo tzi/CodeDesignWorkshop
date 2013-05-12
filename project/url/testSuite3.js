@@ -83,3 +83,30 @@ QUnit.test('Extract anchor from absolute url', function(){
     var url = new Url('http://example.net/it/is?so#funny');
     QUnit.equal(url.anchor, 'funny');
 });
+
+
+// Exercice 3
+QUnit.test('Reconstruct url starting with //', function(){
+    var url = new Url('//example2.net2/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example2.net2/it2/is2?so2#funny2');
+});
+QUnit.test('Reconstruct url starting with /', function(){
+    var url = new Url('/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it2/is2?so2#funny2');
+});
+QUnit.test('Reconstruct url starting with :', function(){
+    var url = new Url(':802/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net:802/it2/is2?so2#funny2');
+});
+QUnit.test('Reconstruct url starting with page', function(){
+    var url = new Url('is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is2?so2#funny2');
+});
+QUnit.test('Reconstruct url starting with ?', function(){
+    var url = new Url('?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is?so2#funny2');
+});
+QUnit.test('Reconstruct url starting with #', function(){
+    var url = new Url('#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is?so#funny2');
+});
