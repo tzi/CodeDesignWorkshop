@@ -68,7 +68,7 @@ QUnit.test('A character takes 100 special damage of type "fire" with 50% protect
 	QUnit.equal(c.getPv(), 50, "Character is left with 50 PV out of 100");
 });
 
-QUnit.test('A character casts a special attack on another', function() {
+QUnit.test('A character casts a 100 pts fire attack on another', function() {
 	QUnit.expect(2);
 	var mock = generateCharacter();
 	mock.take = function(damage, type) {
@@ -85,6 +85,25 @@ QUnit.test('A character casts a special attack on another', function() {
 	c.attack(mock);
 
 });
+
+QUnit.test('A character casts a 66 pts gothic attack on another', function() {
+	QUnit.expect(2);
+	var mock = generateCharacter();
+	mock.take = function(damage, type) {
+		QUnit.equal(damage, 66, "Damage is equal to 66");
+		QUnit.equal(type, 'gothic', "Damage type is gothic");
+	};
+
+	var c = generateCharacter({
+		weapon: {
+			dmg: 66,
+			type: 'gothic'
+		}
+	});
+	c.attack(mock);
+
+});
+
 // Exo 3 =========================================================================
 QUnit.test('Going North', function() {
 	var c = generateCharacter({speed: 2});
