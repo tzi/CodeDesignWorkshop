@@ -1,3 +1,4 @@
+// Exo 1 =========================================================================
 QUnit.test('You can initialize a character with given parameters', function(){
 	var params = {
 		str: 5,
@@ -38,7 +39,7 @@ QUnit.test('A character hits another character with a weapon', function() {
 	attacker.attack(attacked);
 	QUnit.equal(attacked.getPv(), 13);
 });
-
+// Exo 2 =========================================================================
 QUnit.test('Protection against known types is calculated', function() {
 	var params = {pro: {fire: 2, water: 3, emo: 4}};
 	var c = generateCharacter(params);
@@ -84,7 +85,7 @@ QUnit.test('A character casts a special attack on another', function() {
 	c.attack(mock);
 
 });
-
+// Exo 3 =========================================================================
 QUnit.test('Going North', function() {
 	var c = generateCharacter({speed: 2});
 	c.move('N');
@@ -111,4 +112,11 @@ QUnit.test('Going West', function() {
 	c.move('W');
 	QUnit.equal(c.getX(), -2);
 	QUnit.equal(c.getY(), 0);
+});
+
+QUnit.test('Going South East', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('SE');
+	QUnit.equal(c.getX(), 2);
+	QUnit.equal(c.getY(), -2);
 });

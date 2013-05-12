@@ -1,7 +1,7 @@
 function generateCharacter(params) {
     var priv = {
-        x : 0,
-        y : 0,
+        x : 0, // horizontal position
+        y : 0, // vertical position
         str: 1,
         def: 1,
         pv: 10,
@@ -16,20 +16,27 @@ function generateCharacter(params) {
     };
     var pub = {};
 
-    if (params) {
+    if (params) { // initialization of parameters
         for (carac in params) {
             priv[carac] = params[carac];
         }
     }
 
+    // get strength (physical attack)
     pub.getStr = function() {
         return priv.str;
     }
+    // get defense (physical)
     pub.getDef = function() {
         return priv.def;
     }
+    // get health points
     pub.getPv = function() {
         return priv.pv;
+    }
+    // get speed
+    pub.getStr = function() {
+        return priv.speed;
     }
 
     // Take damage
@@ -44,12 +51,12 @@ function generateCharacter(params) {
                 priv.pv = 0;
             }
         } else {
-            var prot_rate = pub.getSpecialDef(type);
-            var actual_damage = damage;
-            if (prot_rate != 0) {
-                actual_damage = Math.ceil(damage * (100 - prot_rate)/100);
+            var pr = pub.getSpecialDef(type);
+            var ad = damage;
+            if (pr != 0) {
+                ad = Math.ceil(damage * (100 - pr)/100);
             }
-            priv.pv -= actual_damage;
+            priv.pv -= ad;
         }
 
         return priv.pv;
@@ -57,59 +64,65 @@ function generateCharacter(params) {
 
     // Attack another character
     pub.attack = function(character) {
-        var damage = priv.str;
-        var type = 'phys';
+        var type = priv.str;
+        var damage = 'phys';
         if (priv.weapon && priv.weapon.dmg) {
-            damage += priv.weapon.dmg;
+            type += priv.weapon.dmg;
             if (priv.weapon.type !== undefined && priv.weapon.type !== 'phys') {
-                damage = priv.weapon.dmg;
-                type = priv.weapon.type = 'fire';
+                type = priv.weapon.dmg;
+                damage = priv.weapon.type = 'fire';
             }
         }
-        character.take(damage, type);
+        // the other character takes damage with given value and type
+        character.take(type, damage);
     }
 
+    // 0
     pub.getSpecialDef = function(type) {
         return priv.pro[type] << 0;
     }
 
-    pub.move = function(direction, nb_of_steps) {
-        if (nb_of_steps === undefined) {
-            nb_of_steps = 1;
+    pub.move = function(d, n) {
+        if (n === undefined) {
+            n = 1;
         }
-        var dist = nb_of_steps * priv.speed;
-        switch(direction) {
+        var z = n * priv.speed;
+        switch(d) {
             case 'N':
-                priv.y += dist;
+                priv.y += z;
                 break;
             case 'NE':
-                priv.y += dist;
-                priv.x += dist;
+                priv.y += z;
+                priv.x += z;
                 break;
             case 'S':
-                priv.y -= dist;
+                priv.y -= z;
                 break;
             case 'SE':
-                priv.y -= dist;
+                priv.y -= z;
             case 'E':
-                priv.x += dist;
+                priv.x += z;
                 break;
             case 'W':
-                priv.x -= dist;
+                priv.x -= z;
                 break;
-            case 'SW': // W00T ! Sud Web ! \o/
-                priv.x -= dist;
-                priv.y -= dist;
+            case 'SW': // W00T ! This is Sud Web ! \o/
+                priv.x -= z;
+                priv.y -= z;
                 break;
         }
     }
 
+    // get X
     pub.getX = function() {
+        // We get X in private variables and we return it
         return priv.x;
     }
 
+    // get X
     pub.getY = function() {
-        return priv.y;
+        // We get X in private variables and we return it
+        return priv.x;
     }
 
     return pub;
