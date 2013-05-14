@@ -134,6 +134,9 @@ App = (function App() {
         selectTestAction: document.getElementById('selectTestAction'),
         runTestAction: document.getElementById('runTestAction'),
         toggleTestAction: document.getElementById('toggleTestAction'),
+        findCodePreviousAction: document.getElementById('findCodePreviousAction'),
+        findCodeAction: document.getElementById('findCodeAction'),
+        findCodeNextAction: document.getElementById('findCodeNextAction'),
         saveCodeAction: document.getElementById('saveCodeAction'),
         loadCodeAction: document.getElementById('loadCodeAction'),
         exercisePicture: document.getElementById('picture'),
@@ -142,10 +145,13 @@ App = (function App() {
         init: function() {
             Interface.selectProjectAction.addEventListener('change', App.selectProject);
             Interface.selectTestAction.addEventListener('change', App.selectTest);
-            Interface.loadCodeAction.addEventListener('change', App.loadCode);
             Interface.runTestAction.addEventListener('click', App.runTests);
             Interface.toggleTestAction.addEventListener('click', App.toggleTestPanel);
+            Interface.findCodePreviousAction.addEventListener('click', App.findCodePrevious);
+            Interface.findCodeAction.addEventListener('click', App.findCode);
+            Interface.findCodeNextAction.addEventListener('click', App.findCodeNext);
             Interface.saveCodeAction.addEventListener('click', App.saveCode);
+            Interface.loadCodeAction.addEventListener('change', App.loadCode);
             Interface.Editor.setTheme("ace/theme/twilight");
             Interface.Editor.getSession().setMode("ace/mode/javascript");
             Interface.Editor.on('change', function(){
@@ -221,6 +227,7 @@ App = (function App() {
 
     /*** Public functions ***/
     var App = {
+        searchActive: false,
 
         // Project
         selectTest: function() {
@@ -243,6 +250,23 @@ App = (function App() {
         },
 
         // Editor
+        findCode: function() {
+            if (Project.active()) {
+                var needle = prompt('Find what?', '');
+                Interface.Editor.find(needle, {wrap: false});
+                App.searchActive = true
+            }
+        },
+        findCodeNext: function() {
+            if (App.searchActive) {
+                Interface.Editor.findNext();
+            }
+        },
+        findCodePrevious: function() {
+            if (App.searchActive) {
+                Interface.Editor.findPrevious();
+            }
+        },
         saveCode: function() {
             if (Project.active()) {
                 var name = prompt('Under which name?', 'just a try');
