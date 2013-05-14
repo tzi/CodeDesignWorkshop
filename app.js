@@ -4,7 +4,7 @@ App = (function App() {
     /*** Management of project & associate tests ***/
     var Project = {
         name: '',
-        testSuite: '',
+        testSuite: null,
         active: function() {
             return (Project.name !== '');
         },
@@ -18,7 +18,7 @@ App = (function App() {
                     App.init(client.responseText);
                 }
                 client.send();
-                Project.loadTestSuite('');
+                Project.loadTestSuite(1);
             }
         },
         loadTestSuite: function(id){
@@ -27,7 +27,10 @@ App = (function App() {
                 var client = new XMLHttpRequest();
                 client.open('GET', 'project/'+Project.name+'/testSuite'+id+'.js');
                 client.onreadystatechange = function() {
-                    Project.testSuite = client.responseText;
+                    Project.testSuite = id;
+                    Interface.TestEditor.setValue(client.responseText);
+                    Interface.TestEditor.clearSelection();
+                    Interface.Editor.focus();
                 }
                 client.send();
                 Interface.TestPanel.clean();
@@ -37,9 +40,11 @@ App = (function App() {
         runTests: function(){
             if (Project.active()) {
                 var js = Interface.Editor.getValue();
+                var testCode = Interface.TestEditor.getValue();
                 try {
                     var currentFileLine = 34;
                     eval(js);
+                    eval('var TestSuite=function(){'+testCode+'}');
                 } catch(e) {
                     var msg = 'Error in javascript compilation: '+e.message;
                     if (typeof e.lineNumber != 'undefined') {
@@ -53,8 +58,6 @@ App = (function App() {
                 QUnit.reset();
                 QUnit.init();
                 QUnit.start();
-                // Reparse the TestSuite with the current context :(
-                eval('var TestSuite=function(){'+Project.testSuite+'}');
                 TestSuite();
             }
         },
@@ -130,15 +133,18 @@ App = (function App() {
         selectProjectAction: document.getElementById('selectProjectAction'),
         selectTestAction: document.getElementById('selectTestAction'),
         runTestAction: document.getElementById('runTestAction'),
+        toggleTestAction: document.getElementById('toggleTestAction'),
         saveCodeAction: document.getElementById('saveCodeAction'),
         loadCodeAction: document.getElementById('loadCodeAction'),
         exercisePicture: document.getElementById('picture'),
         Editor: ace.edit('editorFrame'),
+        TestEditor: ace.edit('testEditorFrame'),
         init: function() {
             Interface.selectProjectAction.addEventListener('change', App.selectProject);
             Interface.selectTestAction.addEventListener('change', App.selectTest);
             Interface.loadCodeAction.addEventListener('change', App.loadCode);
             Interface.runTestAction.addEventListener('click', App.runTests);
+            Interface.toggleTestAction.addEventListener('click', App.toggleTestPanel);
             Interface.saveCodeAction.addEventListener('click', App.saveCode);
             Interface.Editor.setTheme("ace/theme/twilight");
             Interface.Editor.getSession().setMode("ace/mode/javascript");
@@ -146,6 +152,9 @@ App = (function App() {
                 Interface.TestPanel.clean();
                 Interface.clearPicture();
             });
+            Interface.TestEditor.setTheme("ace/theme/twilight");
+            Interface.TestEditor.getSession().setMode("ace/mode/javascript");
+            Interface.TestEditor.setReadOnly(true);
         },
         enableActions: function() {
             var buttons = document.getElementsByClassName('enableWithProject');
@@ -181,16 +190,17 @@ App = (function App() {
                     + '</li>';
             },
             toggle: function(action) {
-                var method;
+                var className;
+                var frame = document.getElementById('mainFrame');
                 if (typeof action == 'object' || typeof action == 'undefined') {
-                    action = false;
-                    method='toggle';
-                } else if (action) {
-                    method='add';
-                } else {
-                    method='remove';
+                    action = (frame.className == 'showTestEditor')
                 }
-                var result = document.getElementById('mainFrame').classList[method]('showTest');
+                if (action) {
+                    className='showTestResult';
+                } else {
+                    className='showTestEditor';
+                }
+                var result = frame.className = className;
             }
         },
         loadPicture: function() {

@@ -18,10 +18,13 @@
             </li>
             <li class="topBar-navItem">
                 <select id="selectTestAction" disabled="disabled" class="enableWithProject">
-                    <option value="" selected="selected">Exercice 1</option>
-                    <option value="2">Exercice 2</option>
-                    <option value="3">Exercice 3</option>
+                    <option value="1" selected="selected">Exercise 1</option>
+                    <option value="2">Exercise 2</option>
+                    <option value="3">Exercise 3</option>
                 </select>
+            </li>
+            <li class="topBar-navItem">
+                <button id="toggleTestAction" disabled="disabled" class="enableWithProject">Toggle view</button>
             </li>
             <li class="topBar-navItem">
                 <button id="runTestAction" disabled="disabled" class="enableWithProject">Run tests</button>
@@ -37,15 +40,18 @@
         </ul>
         <h1 class="topBar-name"><abbr title="Code Review And Development Environment">CRADE</abbr></h1>
     </div>
-    <div id="mainFrame" class="showTest">
+    <div id="mainFrame" class="showTestResult">
         <div id="mainFrameContent">
             <pre id="editorFrame"></pre>
             <div id="testFrame">
-                <ol id="testReport"></ol>
-                <div class="pictureContainer">
-                    <img src="" id="picture" />
+                <pre id="testEditorFrame"></pre>
+                <div id="testResultFrame">
+                    <ol id="testReport"></ol>
+                    <div class="pictureContainer">
+                        <img src="" id="picture" />
+                    </div>
+                    <a href="https://github.com/tzi/CRADE" target="_blank" id="githubLink">Fork me on Github</a>
                 </div>
-                <a href="https://github.com/tzi/CRADE" target="_blank" id="githubLink">Fork me on Github</a>
             </div>
         </div>
     </div>

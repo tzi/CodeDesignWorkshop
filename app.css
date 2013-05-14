@@ -39,11 +39,10 @@ body {
         float: right;
     }
     #topBar > .topBar-nav--project {
-        width: 40%;
+        width: 45%;
         text-align: right;
     }
         #topBar .topBar-navItem {
-            margin-right: 0.5em;
             display: inline;
             cursor: pointer;
         }
@@ -57,6 +56,7 @@ body {
     position: relative;
     height: 100%;
 }
+    #testEditorFrame,
     #editorFrame {
         margin: 0;
         position: absolute;
@@ -66,19 +66,25 @@ body {
         right: 0;
         font-size: 16px;
     }
-    .showTest #editorFrame {
-        right: 40%;
+    .showTestResult #editorFrame,
+    .showTestEditor #editorFrame {
+        right: 45%;
     }
 #testFrame {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
-    width: 40%;
+    width: 45%;
     display: none;
 }
-.showTest #testFrame {
+.showTestResult #testFrame,
+.showTestEditor #testFrame {
     display: block;
+}
+.showTestResult #testEditorFrame,
+.showTestEditor #testResultFrame {
+    display: none;
 }
     #testReport {
         margin: 0;
