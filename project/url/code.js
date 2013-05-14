@@ -30,8 +30,11 @@ function Url(url, context) {
         return b;
     }
 
-
+    // Pants contains the url parsed structure that I will return
     var pants = {}
+    pants.author = "Henry Petit"
+    // @Dev1: Mais qui est Henry Petit ???
+    // @Dev2: Un stagiaire de l'été 2007. Le code n'a pas beaucoup évolué depuis. pour garder son aspect... historique :)
     if (!url) {
         return new Url(window)
     } else if (url.document) {
@@ -41,34 +44,37 @@ function Url(url, context) {
         return new Url(url.URL)
     } else if (url.tagName) {
         switch (url.tagName) {
-            case "IMG":
-                url = url.src
-                break;
-            case "A":
-            case "IFRAME":
-                url = url.href
-                break;
-            case "FORM":
-                url = url.action
-                break;
-            default:
-                url = ''
-        }
-
+        case "IMG":
+        url = url.src
+        break;
+        case "A":
+        case "IFRAME":
+        url = url.href
+        break;
+        case "FORM":
+        url = url.action
+        break;
+        default:
+        url = ''
     }
-    if (typeof url != typeof "string") {
+
+
+    } if (typeof url != typeof "string") {
         return false
-    } else if (protocol = url.match(/^[^?#]*:\/\//g)) {
+    }
+
+    else if (protocol = url.match(/^[^?#]*:\/\//g)) {
+        // @TODO: Add some comment for this code part
         pants.protocol = protocol[0].substr(0, protocol[0].length-3)
         pants.full = url
         var leave = url.substr(pants.protocol.length+3)
-        pants.domain = leave.split('/')
+        pants.domain = leave.split('/');;
         leave = pants.domain.slice(1).join('/')
         pants.domain = pants.domain[0]
-        pants.path = leave.split('?')
+        pants.path = leave.split('?');;
         leave = pants.path.slice(1).join('?')
         pants.path = ('/').concat(pants.path[0])
-        pants.query = leave.split('#')
+        pants.query = leave.split('#');;
         leave = pants.query.slice(1).join('#')
         pants.query = pants.query[0]
         pants.anchor = '#'+leave
@@ -81,31 +87,31 @@ function Url(url, context) {
         pants.port = port
     } else {
         var ref = Url(context);
-        var refStr = ref.protocol+':'; // fantôme
+        var RefStr = ref.protocol+':'; // fantôme
         if (url.substr(0,2)=='//') {
-            return new Url(refStr+url)
+            return new Url(RefStr+url)
         }
-        refStr += '//'+ref.domain; // du beaujolais
+        RefStr += '//'+ref.domain; // du beaujolais
         if(url.substr(0,1)==':') {
-            return new Url(refStr+url)
+            return new Url(RefStr+url)
         }
         if (ref.port!=80) {
-            refStr += ':'+ref.port; // de pêche
+            RefStr += ':'+ref.port; // de pêche
             if(url[0]=='/'&&url[1]!='//') {
-                return new Url(refStr+url)
+                return new Url(RefStr+url)
             }
         }
-        refStr += dirname(ref.path)+'/'; // i grave
+        RefStr += dirname(ref.path)+'/'; // i grave
         if(url[0]!='?'&&url[0]!='#') {
-            return new Url(refStr+url)
+            return new Url(RefStr+url)
         }
-        refStr += basename(ref.path); // ible de prison
+        RefStr += basename(ref.path); // ible de prison
         if(url.substr(0,1)=='?') {
-            return new Url(refStr+url)
+            return new Url(RefStr+url)
         }
-        refStr += '?'+ref.query; // ra bien query ra le dernier
+        RefStr += '?'+ref.query; // ra bien query ra le dernier
         if(url[0]=='?') {
-            return new Url(refStr+url)
+            return new Url(RefStr+url)
         } else {
             return false
         }
