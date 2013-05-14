@@ -195,7 +195,7 @@ App = (function App() {
         },
         loadPicture: function() {
             if (Interface.exercisePicture.style.display == 'none') {
-                var max = 23;
+                var max = 24;
                 var min = 1;
                 var id = Math.floor(Math.random() * (max - min + 1)) + min;
                 Interface.exercisePicture.setAttribute('src', 'picture/pic'+id+'.gif');
