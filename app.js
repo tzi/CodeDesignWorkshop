@@ -65,8 +65,12 @@ App = (function App() {
         init: function() {
             var asserts = [];
             QUnit.log(function(details) {
-                if (details.message) {
-                    asserts.push('<li class="assert"><span class="result result--'+(details.result?'ok':'ko')+'">['+(details.result?'OK':'KO')+'] '+details.message+'</li>');
+                if (!details.result) {
+                    asserts.push('<li class="assert">');
+                    if (details.message) {
+                        asserts.push(details.message+'. ');
+                    }
+                    asserts.push('Expected: '+details.expected+' ; Actual: '+details.actual+'</li>');
                 }
             });
             QUnit.testDone(function(details){
