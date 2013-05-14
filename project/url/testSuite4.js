@@ -103,3 +103,50 @@ QUnit.test('Validation of the anchor attribute of Url', function(){
     var url = new Url('http://example.net/it/is?so#funny');
     QUnit.equal(url.anchor, 'funny');
 });
+
+
+
+/* Exercise 3
+ ==================================================================*/
+QUnit.test('Instantiate Url with a relative url starting with a "//"', function(){
+    var url = new Url('//example2.net2/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example2.net2/it2/is2?so2#funny2');
+});
+
+QUnit.test('Instantiate Url with a relative url starting with a "/"', function(){
+    var url = new Url('/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it2/is2?so2#funny2');
+});
+
+QUnit.test('Instantiate Url with a relative url starting with a ":"', function(){
+    var url = new Url(':802/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net:802/it2/is2?so2#funny2');
+});
+
+QUnit.test('Instantiate Url with a relative url starting with a letter', function(){
+    var url = new Url('is2?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is2?so2#funny2');
+});
+
+QUnit.test('Instantiate Url with a relative url starting with a "?"', function(){
+    var url = new Url('?so2#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is?so2#funny2');
+});
+
+QUnit.test('Instantiate Url with a relative url starting with a "#"', function(){
+    var url = new Url('#funny2', 'http://example.net/it/is?so#funny');
+    QUnit.equal(url.full, 'http://example.net/it/is?so#funny2');
+});
+
+
+
+/* Exercise 4
+ ==================================================================*/
+QUnit.test('Instantiate Url with an absolute url not ending with a "/"', function(){
+    var url = new Url('http://example.net');
+    QUnit.equal(url.path, '/');
+    QUnit.equal(url.full, 'http://example.net/');
+    var url2 = new Url('http://example.net/path');
+    QUnit.equal(url2.path, '/path');
+    QUnit.equal(url2.full, 'http://example.net/path');
+});

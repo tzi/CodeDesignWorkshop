@@ -48,3 +48,8 @@ QUnit.test('Instantiate Url with the a FORM element', function(){
     var url = new Url(el);
     QUnit.equal(url.full, 'http://example.net/');
 });
+
+QUnit.test('Instantiate Url with an absolute url', function(){
+    var url = new Url('http://example.net:418/');
+    QUnit.equal(url.full, 'http://example.net:418/');
+});

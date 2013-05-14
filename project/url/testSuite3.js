@@ -49,11 +49,16 @@ QUnit.test('Instantiate Url with the a FORM element', function(){
     QUnit.equal(url.full, 'http://example.net/');
 });
 
+QUnit.test('Instantiate Url with an absolute url', function(){
+    var url = new Url('http://example.net:418/');
+    QUnit.equal(url.full, 'http://example.net:418/');
+});
+
 
 
 /* Exercise 2
  ==================================================================*/
-QUnit.test('Extract protocol from absolute url', function(){
+QUnit.test('Validation of the protocol attribute of Url', function(){
     var url = new Url('http://example.net');
     QUnit.equal(url.protocol, 'http');
     var url2 = new Url('https://example.net');
@@ -62,19 +67,19 @@ QUnit.test('Extract protocol from absolute url', function(){
     QUnit.equal(url3.protocol, 'ftp');
 });
 
-QUnit.test('Extract domain from absolute url', function(){
+QUnit.test('Validation of the domain attribute of Url', function(){
     var url = new Url('http://example.net');
-    QUnit.equal(url.protocol, 'http');
+    QUnit.equal(url.domain, 'example.net');
 });
 
-QUnit.test('Extract port from absolute url', function(){
+QUnit.test('Validation of the port attribute of Url', function(){
     var url = new Url('http://example.net');
     QUnit.equal(url.port, 80);
     var url2 = new Url('http://example.net:418');
     QUnit.equal(url2.port, 418);
 });
 
-QUnit.test('Extract path from absolute url', function(){
+QUnit.test('Validation of the path attribute of Url', function(){
     var url = new Url('http://example.net');
     QUnit.equal(url.path, '/');
     var url2 = new Url('http://example.net/');
@@ -85,7 +90,7 @@ QUnit.test('Extract path from absolute url', function(){
     QUnit.equal(url4.path, '/it/is');
 });
 
-QUnit.test('Extract query from absolute url', function(){
+QUnit.test('Validation of the query attribute of Url', function(){
     var url = new Url('http://example.net');
     QUnit.equal(url.query, '');
     var url2 = new Url('http://example.net/it/is?so#funny');
@@ -94,7 +99,7 @@ QUnit.test('Extract query from absolute url', function(){
     QUnit.equal(url3.query, 'so&funny');
 });
 
-QUnit.test('Extract anchor from absolute url', function(){
+QUnit.test('Validation of the anchor attribute of Url', function(){
     var url = new Url('http://example.net/it/is?so#funny');
     QUnit.equal(url.anchor, 'funny');
 });
@@ -103,32 +108,32 @@ QUnit.test('Extract anchor from absolute url', function(){
 
 /* Exercise 3
  ==================================================================*/
-QUnit.test('Reconstruct url starting with //', function(){
+QUnit.test('Instantiate Url with a relative url starting with "//"', function(){
     var url = new Url('//example2.net2/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example2.net2/it2/is2?so2#funny2');
 });
 
-QUnit.test('Reconstruct url starting with /', function(){
+QUnit.test('Instantiate Url with a relative url starting with "/"', function(){
     var url = new Url('/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example.net/it2/is2?so2#funny2');
 });
 
-QUnit.test('Reconstruct url starting with :', function(){
+QUnit.test('Instantiate Url with a relative url starting with ":"', function(){
     var url = new Url(':802/it2/is2?so2#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example.net:802/it2/is2?so2#funny2');
 });
 
-QUnit.test('Reconstruct url starting with page', function(){
+QUnit.test('Instantiate Url with a relative url starting with a letter', function(){
     var url = new Url('is2?so2#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example.net/it/is2?so2#funny2');
 });
 
-QUnit.test('Reconstruct url starting with ?', function(){
+QUnit.test('Instantiate Url with a relative url starting with "?"', function(){
     var url = new Url('?so2#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example.net/it/is?so2#funny2');
 });
 
-QUnit.test('Reconstruct url starting with #', function(){
+QUnit.test('Instantiate Url with a relative url starting with "#"', function(){
     var url = new Url('#funny2', 'http://example.net/it/is?so#funny');
     QUnit.equal(url.full, 'http://example.net/it/is?so#funny2');
 });
