@@ -31,6 +31,7 @@ App = (function App() {
                     Interface.TestEditor.setValue(client.responseText);
                     Interface.TestEditor.clearSelection();
                     Interface.Editor.focus();
+                    Interface.Counter.setTarget(20*60*1000) // 20 minutes
                 }
                 client.send();
                 Interface.TestPanel.clean();
@@ -161,6 +162,7 @@ App = (function App() {
             Interface.TestEditor.setTheme("ace/theme/twilight");
             Interface.TestEditor.getSession().setMode("ace/mode/javascript");
             Interface.TestEditor.setReadOnly(true);
+            Interface.Counter.countDown()
         },
         enableActions: function() {
             var buttons = document.getElementsByClassName('enableWithProject');
@@ -181,6 +183,37 @@ App = (function App() {
             Interface.addSaveOption('Load a save','');
             for(var i=0; i<names.length; i++){
                 Interface.addSaveOption(names[i]);
+            }
+        },
+        Counter: {
+            element: document.getElementById('counter'),
+            target: null,
+            setTarget: function(time) {
+                Interface.Counter.target = new Date().getTime() + time;
+                Interface.Counter.element.style.color = 'white';
+                Interface.Counter.element.style.textDecoration = 'none';
+            },
+            countDown: function() {
+                setTimeout(function(){
+                    if (Interface.Counter.target) {
+                        var count = Interface.Counter.target - new Date().getTime();
+                        if (count<0) {
+                            Interface.Counter.target = null;
+                            Interface.Counter.element.style.textDecoration = 'blink';
+                        } else {
+                            count = parseInt(count / 1000);
+                            var sec = count % 60;
+                            sec=(sec<10)?'0'+sec:sec
+                            var min = (count - sec)/60
+                            min=(min<10)?'0'+min:min
+                            if (count<60&&Interface.Counter.element.style.color=='white') {
+                                Interface.Counter.element.style.color = 'red';
+                            }
+                            Interface.Counter.element.innerHTML = min+':'+sec
+                        }
+                    }
+                    Interface.Counter.countDown()
+                }, 1000);
             }
         },
         TestPanel: {
@@ -269,7 +302,7 @@ App = (function App() {
         },
         saveCode: function() {
             if (Project.active()) {
-                var name = prompt('Under which name?', 'just a try');
+                var name = prompt('Under which name?', 'Exercise '+Project.testSuite);
                 if (Storage.addCode(name, Interface.Editor.getValue())){
                     Interface.addSaveOption(name);
                 }
