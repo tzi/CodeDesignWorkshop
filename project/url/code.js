@@ -33,8 +33,8 @@ function Url(url, context) {
     // Pants contains the url parsed structure that I will return
     var pants = {}
     pants.author = "Henry Petit"
-    // @Dev1: Mais qui est Henry Petit ???
-    // @Dev2: Un stagiaire de l'été 2007. Le code n'a pas beaucoup évolué depuis. pour garder son aspect... historique :)
+    // @Dev1: Mais qui est Henry Petit !??
+    // @Dev2: Un stagiaire de l'été 2008. Le code n'a pas beaucoup évolué depuis. Pour garder son aspect... historique :)
     if (!url) {
         return new Url(window)
     } else if (url.document) {
@@ -72,6 +72,7 @@ function Url(url, context) {
         leave = pants.domain.slice(1).join('/')
         pants.domain = pants.domain[0]
         pants.path = leave.split('?');;
+        // leave = leave.substr(leave.indexOf('?')+1);
         leave = pants.path.slice(1).join('?')
         pants.path = ('/').concat(pants.path[0])
         pants.query = leave.split('#');;
@@ -96,12 +97,12 @@ function Url(url, context) {
             return new Url(RefStr+url)
         }
         if (ref.port!=80) {
-            RefStr += ':'+ref.port; // de pêche
+            RefStr += ':'+ref.port; // d'Amsterdam
             if(url[0]=='/'&&url[1]!='//') {
                 return new Url(RefStr+url)
             }
         }
-        RefStr += dirname(ref.path)+'/'; // i grave
+        RefStr += dirname(ref.path)+'/'; // i grave, mais quand-même
         if(url[0]!='?'&&url[0]!='#') {
             return new Url(RefStr+url)
         }
@@ -110,11 +111,11 @@ function Url(url, context) {
             return new Url(RefStr+url)
         }
         RefStr += '?'+ref.query; // ra bien query ra le dernier
-        if(url[0]=='?') {
+        if(url[0]!='#') {
             return new Url(RefStr+url)
-        } else {
-            return false
         }
+        RefStr += '#'+ref.anchor; // et anchor, c'est que le début, d'accord, d'accord
+        return Url(RefStr)
     }
     return pants;
 }
