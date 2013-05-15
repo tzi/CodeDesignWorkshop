@@ -102,7 +102,7 @@ function Url(url, context) {
                 return new Url(RefStr+url)
             }
         }
-        RefStr += dirname(ref.path)+'/'; // i grave, mais quand-même
+        RefStr += dirname(ref.path)+'/'; // i grave, mais quand même
         if(url[0]!='?'&&url[0]!='#') {
             return new Url(RefStr+url)
         }
