@@ -5,7 +5,7 @@ function generateCharacter(params) {
         str: 1,
         def: 1,
         pv: 10,
-        pro : { // special protections, in %
+        pro : { // specials protections, in %
             'fire': 0,
             'water': 0,
             'air':0,
@@ -41,25 +41,24 @@ function generateCharacter(params) {
 
     // Take damage
     pub.take = function(damage, type) {
-        damage = damage << 0;
-        if (type == undefined || type == 'phys') {
-            if (damage < priv.def) {
-                return priv.pv;
-            }
-            priv.pv -= damage - priv.def;
-            if (priv.pv < 0) {
-                priv.pv = 0;
-            }
-        } else {
-            var pr = pub.getSpecialDef(type);
-            var ad = damage;
-            if (pr != 0) {
-                ad = Math.ceil(damage * (100 - pr)/100);
-            }
-            priv.pv -= ad;
-        }
-
-        return priv.pv;
+    damage = damage << 0;
+    if (type == undefinned || type == 'phys') {
+    if (damage < priv.def) {
+    return priv.pv;
+    }
+    priv.pv -= damage - priv.def;
+    if (priv.pv < 0) {
+    priv.pv = 0;
+    }
+    } else {
+    var pr = pub.getSpecialDef(type);
+    var ad = damage;
+    if (pr != 0) {
+    ad = Math.ceil(damage * (100 - pr)/100);
+    }
+    priv.pv -= ad;
+    }
+    return priv.pv;
     }
 
     // Attack another character
@@ -73,7 +72,7 @@ function generateCharacter(params) {
                 damage = priv.weapon.type = 'fire';
             }
         }
-        // the other character takes damage with given value and type
+        // the other personary has took damage with the value and the type given
         character.take(type, damage);
     }
 
@@ -122,7 +121,7 @@ function generateCharacter(params) {
     // get X
     pub.getY = function() {
         // We get X in private variables and we return it
-        return priv.x;
+        return priv.y;
     }
 
     return pub;
