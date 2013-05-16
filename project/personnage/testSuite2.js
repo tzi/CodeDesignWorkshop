@@ -6,9 +6,9 @@ QUnit.test('You can initialize a character with given parameters', function(){
 		pv: 37
 	};
 	var perso = generateCharacter(params);
-    QUnit.equal(perso.getStr(), 5);
-    QUnit.equal(perso.getDef(), 6);
-    QUnit.equal(perso.getPv(), 37);
+    QUnit.equal(perso.getStr(), 5, "Strength");
+    QUnit.equal(perso.getDef(), 6, "Defense");
+    QUnit.equal(perso.getPv(), 37, "PV");
 });
 
 QUnit.test('A character takes damage and is protected by its def', function() {

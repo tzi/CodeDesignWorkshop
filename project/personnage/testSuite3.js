@@ -6,9 +6,9 @@ QUnit.test('You can initialize a character with given parameters', function(){
 		pv: 37
 	};
 	var perso = generateCharacter(params);
-    QUnit.equal(perso.getStr(), 5);
-    QUnit.equal(perso.getDef(), 6);
-    QUnit.equal(perso.getPv(), 37);
+    QUnit.equal(perso.getStr(), 5, "Strength");
+    QUnit.equal(perso.getDef(), 6, "Defense");
+    QUnit.equal(perso.getPv(), 37, "PV");
 });
 
 QUnit.test('A character takes damage and is protected by its def', function() {
@@ -65,15 +65,15 @@ QUnit.test('A character takes 100 special damage of type "fire" with 50% protect
 	var params = {pv: 100, pro: {fire: 50}};
 	var c = generateCharacter(params);
 	c.take(100, 'fire');
-	QUnit.equal(c.getPv(), 50);
+	QUnit.equal(c.getPv(), 50, "Character is left with 50 PV out of 100");
 });
 
 QUnit.test('A character casts a 100 pts fire attack on another', function() {
 	QUnit.expect(2);
 	var mock = generateCharacter();
 	mock.take = function(damage, type) {
-		QUnit.equal(damage, 100);
-		QUnit.equal(type, 'fire');
+		QUnit.equal(damage, 100, "Damage is equal to 100");
+		QUnit.equal(type, 'fire', "Damage type is fire");
 	};
 
 	var c = generateCharacter({
@@ -90,8 +90,8 @@ QUnit.test('A character casts a 66 pts gothic attack on another', function() {
 	QUnit.expect(2);
 	var mock = generateCharacter();
 	mock.take = function(damage, type) {
-		QUnit.equal(damage, 66);
-		QUnit.equal(type, 'gothic');
+		QUnit.equal(damage, 66, "Damage is equal to 66");
+		QUnit.equal(type, 'gothic', "Damage type is gothic");
 	};
 
 	var c = generateCharacter({
