@@ -139,3 +139,22 @@ QUnit.test('Going South East', function() {
 	QUnit.equal(c.getX(), 2);
 	QUnit.equal(c.getY(), -2);
 });
+
+QUnit.test('Going South West', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('SW');
+	QUnit.equal(c.getX(), -2);
+	QUnit.equal(c.getY(), -2);
+});
+QUnit.test('Going North East', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('NE');
+	QUnit.equal(c.getX(), 2);
+	QUnit.equal(c.getY(), 2);
+});
+QUnit.test('Going North West', function() {
+	var c = generateCharacter({speed: 2});
+	c.move('NW');
+	QUnit.equal(c.getX(), 2);
+	QUnit.equal(c.getY(), -2);
+});
