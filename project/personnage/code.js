@@ -42,7 +42,7 @@ function generateCharacter(params) {
     // Take damage
     pub.take = function(damage, type) {
     damage = damage << 0;
-    if (type == undefinned || type == 'phys') {
+    if (type == undefined || type == 'phys') {
     if (damage < priv.def) {
     return priv.pv;
     }
