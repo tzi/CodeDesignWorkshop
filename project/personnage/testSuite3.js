@@ -155,6 +155,6 @@ QUnit.test('Going North East', function() {
 QUnit.test('Going North West', function() {
 	var c = generateCharacter({speed: 2});
 	c.move('NW');
-	QUnit.equal(c.getX(), 2);
-	QUnit.equal(c.getY(), -2);
+	QUnit.equal(c.getX(), -2);
+	QUnit.equal(c.getY(), 2);
 });
